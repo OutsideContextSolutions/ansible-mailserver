@@ -8,10 +8,6 @@
     - postgrey
     - sasl2-bin
 
-- name: Generate DH key
-  command: openssl dhparam -out /etc/ssl/private/dhparam2048.pem 2048
-  args:
-    creates: /etc/ssl/private/dhparam2048.pem
     
 - name: Create database user for mail server
   postgresql_user: login_host=localhost login_user={{ db_admin_username }} login_password="{{ db_admin_password }}" name={{ mail_db_username }} password="{{ mail_db_password }}" encrypted=yes state=present
