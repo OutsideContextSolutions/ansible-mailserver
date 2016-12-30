@@ -17,10 +17,12 @@
 - name: Ensure mail domain directories are in place
   file: state=directory path=/var/vmail/{{ item.name }} owner=vmail group=dovecot mode=0770
   with_items: '{{ mail_virtual_domains }}'
+  tags: setup_users
 
 - name: Ensure mail directories are in place
   file: state=directory path=/var/vmail/{{ item.domain }}/{{ item.account }} owner=vmail group=dovecot
   with_items: '{{ mail_virtual_users }}'
+  tags: setup_users
 
 - name: Copy dovecot.conf into place
   copy: src=etc_dovecot_dovecot.conf dest=/etc/dovecot/dovecot.conf

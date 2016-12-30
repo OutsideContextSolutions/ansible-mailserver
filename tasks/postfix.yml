@@ -20,6 +20,7 @@
 - name: Copy import.sql
   template: src=mailserver.sql.j2 dest=/etc/postfix/import.sql owner=root group=root mode=0600
   notify: import sql postfix
+  tags: setup_users
 
 - name: Copy main.cf
   template: src=etc_postfix_main.cf.j2 dest=/etc/postfix/main.cf owner=root group=root
