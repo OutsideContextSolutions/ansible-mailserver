@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS "virtual_domains" (
 CREATE TABLE IF NOT EXISTS "virtual_users" (
         "id" SERIAL,
         "domain_id" int NOT NULL,
+        "username" TEXT NOT NULL UNIQUE,
         "password" TEXT NOT NULL,
         "email" TEXT NOT NULL UNIQUE,
         PRIMARY KEY ("id"),
