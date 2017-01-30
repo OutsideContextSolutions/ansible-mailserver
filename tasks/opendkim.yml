@@ -10,6 +10,13 @@
 - name: Create OpenDKIM config directory
   file: state=directory path=/etc/opendkim group=opendkim owner=opendkim
 
+- name: Get virtual domains defined
+  shell: PGPASSWORD="{{ mail_db_password }}" psql -U "{{ mail_db_username }}" -d "{{ mail_db_database }}" -h localhost -c 'SELECT array_to_json(array_agg(virtual_domains)) FROM virtual_domains;' -P "footer=off" | tail -n +3
+  register: domain_rows_json
+
+- name: Set the rows as a variable
+  set_fact: mail_virtual_domains="{{ domain_rows_json.stdout | from_json }}"
+
 - name: Create OpenDKIM key directories
   file: state=directory path=/etc/opendkim/keys/{{ item.name }} group=opendkim owner=opendkim
   with_items: "{{ mail_virtual_domains }}"
