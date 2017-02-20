@@ -59,3 +59,6 @@
   with_items:
     - imaps
     - pop3s
+
+- name: Disable dovecot socket since we're not using it
+  service: name=dovecot.socket enabled=no state=stopped
