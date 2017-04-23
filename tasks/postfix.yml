@@ -5,7 +5,6 @@
     - postfix
     - postfix-pcre
     - postfix-pgsql
-    - postgrey
     - sasl2-bin
 
     
