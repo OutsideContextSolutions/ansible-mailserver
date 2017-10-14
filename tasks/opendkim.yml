@@ -14,6 +14,11 @@
   shell: PGPASSWORD="{{ mail_db_password }}" psql -U "{{ mail_db_username }}" -d "{{ mail_db_database }}" -h localhost -c 'SELECT array_to_json(array_agg(virtual_domains)) FROM virtual_domains;' -P "footer=off" | tail -n +3
   register: domain_rows_json
 
+- name: DB table is empty
+  shell: echo {}
+  register: domain_rows_json
+  when: not domain_rows_json.stdout
+
 - name: Set the rows as a variable
   set_fact: mail_virtual_domains="{{ domain_rows_json.stdout | from_json }}"
 
