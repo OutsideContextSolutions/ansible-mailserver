@@ -16,11 +16,16 @@
 
 - name: DB table is empty
   shell: echo {}
-  register: domain_rows_json
+  register: domain_rows_json_alt
+  when: not domain_rows_json.stdout
+
+- name: Set the rows as a variable
+  set_fact: mail_virtual_domains="{{ domain_rows_json_alt.stdout | from_json }}"
   when: not domain_rows_json.stdout
 
 - name: Set the rows as a variable
   set_fact: mail_virtual_domains="{{ domain_rows_json.stdout | from_json }}"
+  when: domain_rows_json.stdout
 
 - name: Create OpenDKIM key directories
   file: state=directory path=/etc/opendkim/keys/{{ item.name }} group=opendkim owner=opendkim
